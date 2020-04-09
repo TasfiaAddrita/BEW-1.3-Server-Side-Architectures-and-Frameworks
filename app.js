@@ -4,6 +4,7 @@ import exphbs from "express-handlebars";
 import expressValidator from "express-validator";
 
 import routes from "./routes"
+require("./data/reddit-db");
 
 const app = express();
 
@@ -16,14 +17,14 @@ app.set("view engine", "hbs")
 app.engine("hbs", exphbs({ 
     extname: 'hbs',
     defaultLayout: "main",
-
 }));
 
 app.use("/posts", routes.post);
 
 app.get("/", (req, res) => {
 //   return res.send("Hello world!");
-    res.render("index");
+    // res.render("index");
+    return res.redirect("/posts/index");
 });
 
 app.listen(process.env.PORT, () =>
