@@ -16,20 +16,6 @@ router.get("/index", (req, res) => {
         });
 });
 
-router.get("/:id", (req, res) => {
-    console.log("I pass")
-    Post.findById(req.params.id)
-        .then(post => {
-            
-            post = JSON.parse(JSON.stringify(post));
-            
-            res.render("posts-show", { post })
-        })
-        .catch(err => {
-            console.log(err);
-        });
-});
-
 router.get("/new", (req, res) => {
   res.render("posts-new");
 });
@@ -41,6 +27,17 @@ router.post("/new", (req, res) => {
     post.save((err, post) => {
         return res.redirect('/');
     })
+});
+
+router.get("/:id", (req, res) => {
+    Post.findById(req.params.id)
+        .then(post => {
+            post = JSON.parse(JSON.stringify(post));
+            res.render("posts-show", { post })
+        })
+        .catch(err => {
+            console.log(err);
+        });
 });
 
 export default router;

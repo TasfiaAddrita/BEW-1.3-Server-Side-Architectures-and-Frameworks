@@ -8,7 +8,7 @@ mongoose.connect(url, { useNewUrlParser: true }, function (err, db) {
   assert.equal(null, err);
   console.log("Connected successfully to database");
 
-  // db.close(); turn on for testing
+//   db.close(); // turn on for testing
 });
 mongoose.connection.on(
   "error",
