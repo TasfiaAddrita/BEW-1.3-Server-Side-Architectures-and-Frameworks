@@ -1,9 +1,9 @@
 import { Router } from "express";
+// import express from "express"
 
 const router = Router();
 const Post = require("../models/post");
-
-// router.use(express.json());
+const comment = require("./comment")
 
 router.get("/index", (req, res) => {
     Post.find({})
@@ -30,7 +30,7 @@ router.post("/new", (req, res) => {
 });
 
 router.get("/:id", (req, res) => {
-    Post.findById(req.params.id)
+    Post.findById(req.params.id).populate("comments")
         .then(post => {
             post = JSON.parse(JSON.stringify(post));
             res.render("posts-show", { post })
@@ -39,5 +39,19 @@ router.get("/:id", (req, res) => {
             console.log(err);
         });
 });
+
+router.use("/:postId/comments", comment.default)
+
+// router.post("/:postId/comments", function (req, res) {
+//     const comment = new Comment(req.body);
+//     comment
+//         .save()
+//         .then(comment => {
+//             return res.redirect("/");
+//         })
+//         .catch(err => {
+//             console.log(err);
+//         });
+// });
 
 export default router;
