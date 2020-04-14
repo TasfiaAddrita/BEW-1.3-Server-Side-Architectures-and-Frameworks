@@ -6,6 +6,8 @@ import expressValidator from "express-validator";
 import routes from "./routes"
 require("./data/reddit-db");
 
+const Post = require("./models/post");
+
 const app = express();
 
 app.use(express.json());
@@ -19,13 +21,28 @@ app.engine("hbs", exphbs({
     defaultLayout: "main",
 }));
 
+// routes
 app.use("/posts", routes.post);
+// app.use("/posts", routes.comment);
 
+// paths
 app.get("/", (req, res) => {
-//   return res.send("Hello world!");
     // res.render("index");
     return res.redirect("/posts/index");
 });
+
+
+app.get("/n/:subreddit", function (req, res) {
+    // console.log(req.params.subreddit);
+    Post.find({ subreddit: req.params.subreddit }).lean()
+        .then(posts => {
+            res.render("posts-index", { posts });
+        })
+        .catch(err => {
+            console.log(err);
+        })
+})
+
 
 app.listen(process.env.PORT, () =>
   console.log(`Example app listening on port ${process.env.PORT}`)
