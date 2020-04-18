@@ -1,6 +1,5 @@
-import { Router } from "express";
-
-const router = Router();
+const express = require("express")
+const router = express.Router();
 const Post = require("../models/post");
 const comment = require("./comment")
 
@@ -39,7 +38,7 @@ router.get("/:id", (req, res) => {
         });
 });
 
-router.use("/:postId/comments", comment.default)
+router.use("/:postId/comments", comment.router)
 
 // router.post("/:postId/comments", function (req, res) {
 //     const comment = new Comment(req.body);
@@ -53,4 +52,5 @@ router.use("/:postId/comments", comment.default)
 //         });
 // });
 
-export default router;
+// export default router;
+module.exports = router;

@@ -1,6 +1,7 @@
-import post from "./post";
-import comment from "./comment"
-export default {
+const post = require("./post");
+const comment = require("./comment");
+
+module.exports = {
     post,
     comment
 };

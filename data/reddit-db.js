@@ -1,6 +1,5 @@
-/* Mongoose Connection */
-import mongoose from "mongoose";
-import assert from "assert";
+const mongoose = require("mongoose");
+const assert = require("assert");
 
 const url = "mongodb://localhost/reddit-db";
 mongoose.Promise = global.Promise;

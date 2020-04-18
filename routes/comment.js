@@ -1,11 +1,11 @@
-import { Router } from "express";
-
-const router = Router({ mergeParams: true });
+const express = require("express")
+const router = express.Router({ mergeParams: true });
 const Post = require("../models/post");
 const Comment = require("../models/comment");
 
 router.post("/", function(req, res) {
     const comment = new Comment(req.body);
+    console.log(req.body.postId)
     comment
         .save()
         .then(comment => {
@@ -16,11 +16,11 @@ router.post("/", function(req, res) {
             return post.save();
         })
         .then(post => {
-            return res.redirect("/");
+            return res.redirect(`/posts/${post.id}`);
         })
         .catch(err => {
             console.log(err);
         });
 });
 
-export default router;
+module.exports = { router };

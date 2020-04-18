@@ -4,8 +4,8 @@
   "description": "",
   "main": "server.js",
   "scripts": {
-    "start": "nodemon --exec babel-node app.js",
-    "test": "mocha --require @babel/register"
+    "start": "nodemon app.js",
+    "test": "mocha"
   },
   "repository": {
     "type": "git",

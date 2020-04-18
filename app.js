@@ -1,10 +1,10 @@
-import "dotenv/config";
-import express from "express";
-import exphbs from "express-handlebars";
-import expressValidator from "express-validator";
-
-import routes from "./routes"
+require("dotenv/config");
 require("./data/reddit-db");
+
+const express = require("express");
+const exphbs = require("express-handlebars");
+const expressValidator = require("express-validator");
+const routes = require("./routes")
 
 const Post = require("./models/post");
 
@@ -23,7 +23,6 @@ app.engine("hbs", exphbs({
 
 // routes
 app.use("/posts", routes.post);
-// app.use("/posts", routes.comment);
 
 // paths
 app.get("/", (req, res) => {
@@ -33,7 +32,6 @@ app.get("/", (req, res) => {
 
 
 app.get("/n/:subreddit", function (req, res) {
-    // console.log(req.params.subreddit);
     Post.find({ subreddit: req.params.subreddit }).lean()
         .then(posts => {
             res.render("posts-index", { posts });
