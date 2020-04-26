@@ -1,11 +1,12 @@
 const express = require("express")
 const router = express.Router();
 const Post = require("../models/post");
+const User = require("../models/user");
 const comment = require("./comment")
 
 router.get("/index", (req, res) => {
     let currentUser = req.user;
-    Post.find({})
+    Post.find({}).populate("author")
         .then(posts => {
             posts = JSON.parse(JSON.stringify(posts))
             res.render("posts-index", { posts, currentUser });
@@ -20,19 +21,33 @@ router.get("/new", (req, res) => {
 });
 
 router.post("/new", (req, res) => {
-    // console.log(req.body)
-    const post = new Post(req.body);
+    if (req.user) {
+        const post = new Post(req.body);
+        post.author = req.user._id;
 
-    post.save((err, post) => {
-        return res.redirect('/');
-    })
+        post.save()
+        .then(post => {
+            return User.findById(req.user._id);
+        })
+        .then(user => {
+            user.posts.unshift(post);
+            user.save()
+            return res.redirect(`/posts/${post._id}`);
+        })
+        .catch(err => {
+            console.log(err.message);
+        })
+    } else {
+        return res.status(401); // UNAUTHORIZED
+    }
 });
 
 router.get("/:id", (req, res) => {
-    Post.findById(req.params.id).populate("comments")
+    let currentUser = req.user;
+    Post.findById(req.params.id).populate("comments").populate("author")
         .then(post => {
             post = JSON.parse(JSON.stringify(post));
-            res.render("posts-show", { post })
+            res.render("posts-show", { post, currentUser })
         })
         .catch(err => {
             console.log(err);
@@ -41,17 +56,4 @@ router.get("/:id", (req, res) => {
 
 router.use("/:postId/comments", comment.router)
 
-// router.post("/:postId/comments", function (req, res) {
-//     const comment = new Comment(req.body);
-//     comment
-//         .save()
-//         .then(comment => {
-//             return res.redirect("/");
-//         })
-//         .catch(err => {
-//             console.log(err);
-//         });
-// });
-
-// export default router;
 module.exports = router;

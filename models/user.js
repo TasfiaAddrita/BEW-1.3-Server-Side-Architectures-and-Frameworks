@@ -8,7 +8,9 @@ const UserSchema = new Schema({
     firstName: { type: String, required: true },
     lastName: { type: String, required: true },
     username: { type: String, required: true },
-    password: { type: String, select: false }
+    password: { type: String, select: false },
+    posts : [{ type: Schema.Types.ObjectId, ref: "Post" }]
+
 });
 
 // Define the callback with a regular function to avoid problems with this
@@ -19,7 +21,6 @@ UserSchema.pre("save", function (next) {
     if (!this.createdAt) {
         this.createdAt = now;
     }
-    // next();
 
     // ENCRYPT PASSWORD
     const user = this;
@@ -29,7 +30,6 @@ UserSchema.pre("save", function (next) {
     bcrypt.genSalt(10, (err, salt) => {
         bcrypt.hash(user.password, salt, (err, hash) => {
             user.password = hash;
-            // console.log(user.password)
             next();
         });
     });
