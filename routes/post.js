@@ -4,10 +4,11 @@ const Post = require("../models/post");
 const comment = require("./comment")
 
 router.get("/index", (req, res) => {
+    let currentUser = req.user;
     Post.find({})
         .then(posts => {
             posts = JSON.parse(JSON.stringify(posts))
-            res.render("posts-index", { posts });
+            res.render("posts-index", { posts, currentUser });
         })
         .catch(err => {
             console.log(err.message);

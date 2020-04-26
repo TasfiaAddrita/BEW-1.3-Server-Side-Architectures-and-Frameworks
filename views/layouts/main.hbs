@@ -13,15 +13,23 @@
 
     <body>
 
-        <nav class="navbar navbar-light bg-light">
+        <nav class="navbar navbar-light bg-light navbar-expand-lg">
             <a class="navbar-brand" href="/posts/index">
                 <img src="https://external-preview.redd.it/iDdntscPf-nfWKqzHRGFmhVxZm4hZgaKe5oyFws-yzA.png?auto=webp&s=38648ef0dc2c3fce76d5e1d8639234d8da0152b2"
                     width="30" height="30" alt="">
-                <a href="/posts/new" class="btn btn-primary navbar-btn">New Post</a>
-                <a href="/logout" class="btn navbar-btn">Logout</a>
-                <a href="/login">Login</a>
-                <a href="/sign-up">Sign Up</a>
             </a>
+            {{!-- <a href="/posts/new" class="btn btn-primary navbar-btn">New Post</a> --}}
+            <div class="collapse navbar-collapse">
+                <ul class="ml-auto navbar-nav">
+                    {{#if currentUser}}
+                        <li class="nav-item"><a class="nav-link" href="/posts/new">New Post</a></li>
+                        <li class="nav-item"><a class="nav-link" href="/logout">Logout</a></li>
+                    {{else}}
+                    <li class="nav-item"><a class="nav-link" href="/login">Login</a></li>
+                    <li class="nav-item"><a class="nav-link" href="/sign-up">Sign Up</a></li>
+                    {{/if}}
+                </ul> 
+            </div>
         </nav>
         <div class="container-fluid">
             <h1>Reddit.js</h1>
