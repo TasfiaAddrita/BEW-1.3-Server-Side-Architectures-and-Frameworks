@@ -5,7 +5,7 @@ const Comment = require("../models/comment");
 
 router.post("/", function(req, res) {
     const comment = new Comment(req.body);
-    console.log(req.body.postId)
+    // console.log(req.body.postId)
     comment
         .save()
         .then(comment => {

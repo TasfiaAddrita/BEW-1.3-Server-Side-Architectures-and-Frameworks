@@ -4,8 +4,10 @@ require("./data/reddit-db");
 const express = require("express");
 const exphbs = require("express-handlebars");
 const expressValidator = require("express-validator");
-const routes = require("./routes")
+const cookie = require("cookie-parser");
+const jwt = require("jsonwebtoken");
 
+const routes = require("./routes")
 const Post = require("./models/post");
 
 const app = express();
@@ -23,6 +25,7 @@ app.engine("hbs", exphbs({
 
 // routes
 app.use("/posts", routes.post);
+app.use("/", routes.auth)
 
 // paths
 app.get("/", (req, res) => {
