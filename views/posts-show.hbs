@@ -3,21 +3,21 @@
         <a href="{{post.url}}" class="lead">{{post.title}}</a>
         <div><small>{{post.author.username}}</small></div>
         <p>{{post.summary}}</p>
-    
-        <form action="/posts/{{post._id}}/comments" method="POST">
-            <textarea class="form-control" name="content" placeholder="Comment"></textarea>
-            <div class="text-right">
-                {{#if currentUser}}
+        {{#if currentUser}}
+            <form action="/posts/{{post._id}}/comments" method="POST">
+                <textarea class="form-control" name="content" placeholder="Comment"></textarea>
+                <div class="text-right">
                     <button class="btn btn-primary" type="submit">Save</button>
-                {{else}}
-                    <button class="btn btn-primary disabled" type="submit">Save</button>
-                {{/if}}
-            </div>
-        </form>
+                </div>
+            </form>
+        {{else}}
+            <p>Log in or sign up to leave a comment.</p>
+        {{/if}}
 
         {{#each post.comments}}
             <div>
                 {{this.content}}
+                <p class="text-right">{{this.author.username}}</p>
             </div>
         {{/each}}
     </div>

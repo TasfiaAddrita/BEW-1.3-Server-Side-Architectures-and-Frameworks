@@ -2,12 +2,13 @@ const express = require("express")
 const router = express.Router({ mergeParams: true });
 const Post = require("../models/post");
 const Comment = require("../models/comment");
+const User = require("../models/user");
 
 router.post("/", function(req, res) {
     const comment = new Comment(req.body);
-    // console.log(req.body.postId)
-    comment
-        .save()
+    comment.author = req.user._id
+    
+    comment.save()
         .then(comment => {
             return Post.findById(req.params.postId);
         })

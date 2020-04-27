@@ -26,17 +26,17 @@ router.post("/new", (req, res) => {
         post.author = req.user._id;
 
         post.save()
-        .then(post => {
-            return User.findById(req.user._id);
-        })
-        .then(user => {
-            user.posts.unshift(post);
-            user.save()
-            return res.redirect(`/posts/${post._id}`);
-        })
-        .catch(err => {
-            console.log(err.message);
-        })
+            .then(post => {
+                return User.findById(req.user._id);
+            })
+            .then(user => {
+                user.posts.unshift(post);
+                user.save()
+                return res.redirect(`/posts/${post._id}`);
+            })
+            .catch(err => {
+                console.log(err.message);
+            })
     } else {
         return res.status(401); // UNAUTHORIZED
     }
@@ -44,7 +44,14 @@ router.post("/new", (req, res) => {
 
 router.get("/:id", (req, res) => {
     let currentUser = req.user;
-    Post.findById(req.params.id).populate("comments").populate("author")
+    Post.findById(req.params.id)
+        .populate({
+            path: "comments",
+            populate: {
+                path: "author"
+            }
+        }).populate("author")
+        
         .then(post => {
             post = JSON.parse(JSON.stringify(post));
             res.render("posts-show", { post, currentUser })
