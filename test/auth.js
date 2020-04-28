@@ -25,7 +25,7 @@ describe("User", function() {
     })
 
     it("should be able to signup", function(done) {
-        User.findOneAndRemove({ username: "testOne"}, function() {
+        User.findOneAndRemove({ username: "testOne" }, function() {
             agent
                 .post("/sign-up")
                 .send({
