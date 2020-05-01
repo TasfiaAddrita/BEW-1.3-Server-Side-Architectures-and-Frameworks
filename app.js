@@ -50,7 +50,7 @@ app.get("/", (req, res) => {
 
 app.get("/n/:subreddit", function (req, res) {
     let currentUser = req.user;
-    Post.find({ subreddit: req.params.subreddit }).lean().populate("author")
+    Post.find({ subreddit: req.params.subreddit }).lean()
         .then(posts => {
             res.render("posts-index", { posts, currentUser });
         })

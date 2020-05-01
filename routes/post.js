@@ -45,13 +45,13 @@ router.post("/new", (req, res) => {
 router.get("/:id", (req, res) => {
     let currentUser = req.user;
     Post.findById(req.params.id)
-        .populate({
-            path: "comments",
-            populate: {
-                path: "author"
-            }
-        }).populate("author")
-        
+        // .populate({
+        //     path: "comments",
+        //     populate: {
+        //         path: "author"
+        //     }
+        // }).populate("author")
+        .populate("comments").lean()
         .then(post => {
             post = JSON.parse(JSON.stringify(post));
             res.render("posts-show", { post, currentUser })

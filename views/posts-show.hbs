@@ -3,6 +3,7 @@
         <a href="{{post.url}}" class="lead">{{post.title}}</a>
         <div><small>{{post.author.username}}</small></div>
         <p>{{post.summary}}</p>
+        <hr>
         {{#if currentUser}}
             <form action="/posts/{{post._id}}/comments" method="POST">
                 <textarea class="form-control" name="content" placeholder="Comment"></textarea>
@@ -11,9 +12,10 @@
                 </div>
             </form>
         {{else}}
-            <p>Log in or sign up to leave a comment.</p>
+            <h6>Log in or sign up to leave a comment.</h6>
         {{/if}}
-
+        
+        <h4>Comments</h4>
         {{#each post.comments}}
             <div>
                 {{this.content}}
