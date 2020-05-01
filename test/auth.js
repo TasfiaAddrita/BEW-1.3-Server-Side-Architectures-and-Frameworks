@@ -11,7 +11,7 @@ const User = require("../models/user");
 describe("User", function() {
     after(function() {
         agent.close();
-    })
+    });
 
     it("should not be able to login if they have not signed up", function(done) {
         agent.post("/login", {
@@ -21,8 +21,8 @@ describe("User", function() {
         .end(function(err, res) {
             res.status.should.be.equal(401);
             done();
-        })
-    })
+        });
+    });
 
     it("should be able to signup", function(done) {
         User.findOneAndRemove({ username: "testOne" }, function() {
@@ -39,7 +39,16 @@ describe("User", function() {
                     res.should.have.status(200);
                     agent.should.have.cookie("nToken");
                     done();
-                })
-        })
-    })
-})
+                });
+        });
+    });
+
+    it("should be able to logout", function(done) {
+        agent.get("/logout")
+        .end(function(err, res) {
+            res.should.have.status(200);
+            agent.should.not.cookie("nToken");
+            done();
+        });
+    });
+});
