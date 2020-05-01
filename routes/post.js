@@ -21,10 +21,10 @@ router.get("/new", (req, res) => {
 });
 
 router.post("/new", (req, res) => {
+    console.log("user", req.user)
     if (req.user) {
         const post = new Post(req.body);
         post.author = req.user._id;
-
         post.save()
             .then(post => {
                 return User.findById(req.user._id);

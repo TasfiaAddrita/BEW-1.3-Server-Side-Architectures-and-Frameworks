@@ -10,26 +10,18 @@ const User = require("../models/user");
 chai.should();
 chai.use(chaiHttp);
 
-// function makePostRequest(initialDocCount, post, status) {
-//     chai
-//       .request(app)
-//       .post("/posts/new")
-//       .set("content-type", "application/x-www-form-urlencoded")
-//       .send(post)
-//       .then(function (res) {
-//         Post.estimatedDocumentCount()
-//           .then(function (newDocCount) {
-//             expect(res).to.have.status(200);
-//             expect(newDocCount).to.be.equal(initialDocCount + 1);
-//             done();
-//           })
-//           .catch(function (err) {
-//             done(err);
-//           })
-//           .catch(function (err) {
-//             done(err);
-//           });
-//       });
+// Posts collection is starting with one document
+// {
+//     comments: [ 5ea6415f7a55104a7b040851 ],
+//     _id: 5ea640fb7a55104a7b040850,
+//     title: 'i am a post',
+//     url: 'https://www.google.com',
+//     summary: 'i am a post with an author and also with comments',
+//     subreddit: 'comments',
+//     author: 5ea5ebf37c1dbf3cbbb73cf3,
+//     updatedAt: 2020-04-27T02:20:15.178Z,
+//     createdAt: 2020-04-27T02:18:35.079Z,
+//     __v: 1
 // }
 
 describe("Posts", function() {
@@ -46,6 +38,7 @@ describe("Posts", function() {
         username: "postsTest",
         password: "testPosts"
     };
+    
     before(function (done) {
       agent
         .post("/sign-up")
@@ -58,53 +51,57 @@ describe("Posts", function() {
           done(err);
         });
     });
-    after(function (done) {
-      Post.findOneAndDelete(newPost)
-        .then(function (res) {
-          agent.close();
 
-          User.findOneAndDelete({
-            username: user.username,
-          })
+    after(function (done) {
+        Post.findOneAndDelete(newPost)
             .then(function (res) {
-              done();
+                agent.close()
+
+                User.findOneAndDelete({
+                    username: user.username
+                })
+                    .then(function (res) {
+                        done();
+                    })
+                    .catch(function (err) {
+                        done(err);
+                    });
             })
             .catch(function (err) {
-              done(err);
-            });
-        })
-        .catch(function (err) {
-          done(err);
-        });
-    });
-
-    it("should create with valid attributes at POST /posts/new", function(done) {
-        Post.estimatedDocumentCount()
-            .then(function(initialDocCount) {
-                chai
-                    .request(app)
-                    .post("/posts/new")
-                    .set("content-type", "application/x-www-form-urlencoded")
-                    .send(newPost)
-                    .then(function(res) {
-                        Post.estimatedDocumentCount()
-                            .then(function(newDocCount) {
-                                expect(res).to.have.status(200);
-                                expect(newDocCount).to.be.equal(initialDocCount + 1);
-                                done();
-                            }).catch(function(err) {
-                                done(err);
-                            })
-                        .catch(function(err) {
-                            done(err);
-                        });
-                    })
-            .catch(function(err) {
                 done(err);
             });
-        });
     });
-    // after(function() {
-    //     Post.findOneAndDelete(newPost);
-    // });
+
+    it('Should create with valid attributes at POST /posts/new', function (done) {
+        // Checks how many posts there are now
+        Post.estimatedDocumentCount()
+            .then(function (initialDocCount) {
+                agent
+                    .post("/posts/new")
+                    // This line fakes a form post,
+                    // since we're not actually filling out a form
+                    .set("content-type", "application/x-www-form-urlencoded")
+                    // Make a request to create another
+                    .send(newPost)
+                    .then(function (res) {
+                        Post.estimatedDocumentCount()
+                            .then(function (newDocCount) {
+                                // Check that the database has one more post in it
+                                expect(res).to.have.status(200);
+                                // Check that the database has one more post in it
+                                expect(newDocCount).to.be.equal(initialDocCount + 1)
+                                done();
+                            })
+                            .catch(function (err) {
+                                done(err);
+                            });
+                    })
+                    .catch(function (err) {
+                        done(err);
+                    });
+            })
+            .catch(function (err) {
+                done(err);
+            });
+    });
 });
