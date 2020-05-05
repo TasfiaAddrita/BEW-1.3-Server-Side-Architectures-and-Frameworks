@@ -26,7 +26,7 @@
         {{/each}} --}}
         {{!-- <p>{{post._id}}</p> --}}
         {{#each post.comments}}
-            {{> comment comment=this postId=../post._id}}
+            {{> comment comment=this postId=../post._id currentUser=../currentUser}}
             <br>
         {{/each}}
     </div>
