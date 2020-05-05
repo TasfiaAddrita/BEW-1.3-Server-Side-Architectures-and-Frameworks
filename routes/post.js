@@ -17,7 +17,8 @@ router.get("/index", (req, res) => {
 });
 
 router.get("/new", (req, res) => {
-  res.render("posts-new");
+    let currentUser = req.user;
+    res.render("posts-new", { currentUser });
 });
 
 router.post("/new", (req, res) => {

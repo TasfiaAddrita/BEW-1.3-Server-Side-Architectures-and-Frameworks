@@ -3,6 +3,7 @@ const router = express.Router({ mergeParams: true });
 const Post = require("../models/post");
 const Comment = require("../models/comment");
 const User = require("../models/user");
+const reply = require("./replies")
 
 router.post("/", function(req, res) {
     const comment = new Comment(req.body);
@@ -27,5 +28,7 @@ router.post("/", function(req, res) {
             console.log(err);
         });
 });
+
+router.use("/:commentId/replies", reply.router)
 
 module.exports = { router };

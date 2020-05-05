@@ -6,6 +6,7 @@ const exphbs = require("express-handlebars");
 const expressValidator = require("express-validator");
 const cookieParser = require("cookie-parser");
 const jwt = require("jsonwebtoken");
+const path = require("path")
 
 const routes = require("./routes")
 const Post = require("./models/post");
@@ -16,12 +17,14 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(expressValidator());
 app.use(cookieParser());
+app.use(express.static(path.join(__dirname, '/public')));
 
 // middleware
 app.set("view engine", "hbs")
 app.engine("hbs", exphbs({ 
     extname: 'hbs',
     defaultLayout: "main",
+    // partialsDir: __dirname + '/views/partials/'
 }));
 
 // auth middleware
@@ -46,7 +49,6 @@ app.use("/", routes.auth)
 app.get("/", (req, res) => {
     return res.redirect("/posts/index");
 });
-
 
 app.get("/n/:subreddit", function (req, res) {
     let currentUser = req.user;

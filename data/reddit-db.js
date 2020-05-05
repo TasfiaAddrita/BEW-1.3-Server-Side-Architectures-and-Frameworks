@@ -13,6 +13,6 @@ mongoose.connection.on(
   "error",
   console.error.bind(console, "MongoDB connection Error:")
 );
-mongoose.set("debug", true);
+mongoose.set("debug", false);
 
 module.exports = mongoose.connection;

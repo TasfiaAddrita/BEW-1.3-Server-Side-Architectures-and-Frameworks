@@ -16,11 +16,18 @@
         {{/if}}
         
         <h4>Comments</h4>
-        {{#each post.comments}}
+        {{!-- {{#each post.comments}}
             <div>
                 {{this.content}}
                 <p class="text-right">{{this.author.username}}</p>
+                <a href="/posts/{{../post._id}}/comments/{{this._id}}/replies/new">Reply</a>
             </div>
+            <br>
+        {{/each}} --}}
+        {{!-- <p>{{post._id}}</p> --}}
+        {{#each post.comments}}
+            {{> comment comment=this postId=../post._id}}
+            <br>
         {{/each}}
     </div>
 </div>
