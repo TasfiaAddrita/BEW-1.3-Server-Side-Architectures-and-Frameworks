@@ -25,8 +25,8 @@ after((done) => {
   done()
 })
 
-// const SAMPLE_USER_ID = "1234567890AB"
-// const SAMPLE_MESSAGE_ID = "1234567890CD"
+const SAMPLE_USER_ID = "1234567890AB"
+const SAMPLE_MESSAGE_ID = "1234567890CD"
 
 describe('Message API endpoints', () => {
     beforeEach((done) => {
@@ -34,20 +34,23 @@ describe('Message API endpoints', () => {
         const sampleUser = new User({
             username: "happy",
             password: "coolstuff123",
-            // _id: SAMPLE_USER_ID
+            _id: SAMPLE_USER_ID
         })
-        sampleUser.save()
-        .then(user => {
-            return user._id
-        })
+        // sampleUser.save()
+        // .then(user => {
+        //     return user._id
+        // })
         const sampleMessage = new Message({
             title: "Make School",
             body: "Make School is awesome!",
             author: SAMPLE_USER_ID,
-            // _id: SAMPLE_MESSAGE_ID
+            _id: SAMPLE_MESSAGE_ID
         })
 
-        Promise.all([sampleUser.save(), sampleMessage.save()])
+        Promise.all([
+            sampleUser.save(),
+            sampleMessage.save()]
+        )
         .then(() => {
             done()
         })
@@ -56,11 +59,11 @@ describe('Message API endpoints', () => {
 
     afterEach((done) => {
         // add any afterEach code here
-        // deleteMessage = Message.deleteOne({ _id: SAMPLE_MESSAGE_ID })
+        deleteMessage = Message.deleteOne({ _id: SAMPLE_MESSAGE_ID })
         deleteUser = User.deleteOne( {_id: SAMPLE_USER_ID })
         // deleteMessages = Message.deleteMany( { title: ["Make School", "Test message 2"] })
         
-        Promise.all([deleteMessages, deleteUser])
+        Promise.all([deleteMessage, deleteUser])
         .then(() => {
             done()
         })
@@ -124,7 +127,7 @@ describe('Message API endpoints', () => {
         .end((err, res) => {
             if (err) { done(err) }
             expect(res.body).to.be.an("object")
-            console.log("I run", res.body)
+            // console.log("I run", res.body)
             expect(res.body).to.have.property("title", "Test message 3")
             expect(res.body).to.have.property("body", "Testing put route")
 

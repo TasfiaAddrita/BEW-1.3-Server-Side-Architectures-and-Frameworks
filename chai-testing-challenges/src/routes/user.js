@@ -5,7 +5,7 @@ const User = require('../models/user')
 /** Route to get all users. */
 // GET localhost:3000/users/
 router.get('/', (req, res) => {
-    User.find().then((users) => {
+    User.find().lean().then((users) => {
         return res.json({users})
     })
     .catch((err) => {

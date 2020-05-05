@@ -68,12 +68,17 @@ router.delete('/:messageId', (req, res) => {
     // TODO: Delete the specified Message using `findByIdAndDelete`. Make sure to also delete the message from the User object's `messages` array
     Message.findByIdAndDelete(req.params.messageId)
     .then((message) => {
-        return User.findById(message.author)
+        user = User.findById(message.author)
+
+        // console.log(user)
+        return user;
+        // const { message, ...noMessage } = user.messages
+        // console.log(noMessage)
+        // return user
     })
-    .then((user) => {
-        // delete object from messages array in User
-        
-    })
+    // .then((user) => {
+    //     // delete object from messages array in User
+    // })
     // TODO: Return a JSON object indicating that the Message has been deleted
 })
 
