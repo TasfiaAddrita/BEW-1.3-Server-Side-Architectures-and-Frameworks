@@ -11,6 +11,9 @@ const PostSchema = new Schema({
   summary: { type: String, required: true },
   comments: [{ type:Schema.Types.ObjectId, ref: "Comment" }],
   subreddit: { type: String, required: true },
+  upVotes : [{ type: Schema.Types.ObjectId, ref: "User" }],
+  downVotes : [{ type: Schema.Types.ObjectId, ref: "User" }],
+  voteScore : { type: Number }
 });
 
 PostSchema.pre("save", function (next) {

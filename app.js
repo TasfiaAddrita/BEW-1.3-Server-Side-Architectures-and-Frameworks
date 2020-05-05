@@ -61,6 +61,26 @@ app.get("/n/:subreddit", function (req, res) {
         })
 })
 
+// app.put("posts/:id/vote-up", function (req, res) {
+//     Post.findById(req.params.id).exec(function (err, post) {
+//         console.log("I pass")
+//         post.upVotes.push(req.user._id);
+//         post.voteScore = post.voteScore + 1;
+//         post.save();
+
+//         res.status(200);
+//     });
+// });
+
+// app.put("posts/:id/vote-down", function (req, res) {
+//     Post.findById(req.params.id).exec(function (err, post) {
+//         post.downVotes.push(req.user._id);
+//         post.voteScore = post.voteScore - 1;
+//         post.save();
+
+//         res.status(200);
+//     });
+// });
 
 app.listen(process.env.PORT, () =>
   console.log(`Example app listening on port ${process.env.PORT}`)
