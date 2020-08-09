@@ -1,5 +1,5 @@
 <p align="center">
-  <img src="node.png" height="110">
+  <img src="https://github.com/Make-School-Courses/BEW-1.3-Server-Side-Architectures-and-Frameworks/raw/4691052a674d62a9a676ba6ba0c84c76e4259346/node.png" height="110">
 </p>
 
 # BEW1.3 - Server-Side Architectures & Frameworks
